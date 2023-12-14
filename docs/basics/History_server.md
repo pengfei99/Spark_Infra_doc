@@ -47,5 +47,26 @@ spark.history.fs.update.interval 10s
 # the web ui port 
 spark.history.ui.port 18080
 ```
-Enable by setting the configuration spark.eventLog.enabled to true.
-Specify where to store the event log history using spark.history.fs.logDirectory and spark.eventLog.dir, by default the location is file:///tmp/spark-events. You need to create the directory in advance.
+
+> If your spark is running on cluster mode, the default local file system such as `file:///tmp/spark-events` will not 
+   work. You need to set up a network file system. And don't forget to create the directory in advance.
+
+## Running the spark history server
+
+Use the below command to run the spark history server
+
+```shell
+# in linux
+bash $SPARK_HOME/sbin/start-history-server.sh
+bash $SPARK_HOME/sbin/stop-history-server.sh
+
+# in windows
+$SPARK_HOME/bin/spark-class.cmd org.apache.spark.deploy.history.HistoryServer
+```
+
+> Spark will create a sub-directory for each application and logs the events specific to the application in this directory.
+
+## Visualize the History server UI
+
+In our config, we specify that `History server` listens at 18080 port. So we can access the history server UI by
+using http://localhost:18080/
